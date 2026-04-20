@@ -115,7 +115,7 @@ const Footer = () => {
                 </div>
                 <div className="text-sm">
                   <p className="text-xs text-gray-500">{t.footer.pipesDept}</p>
-                  <a href="tel:01224048111" dir="ltr" className="font-medium hover:text-blue-400 transition-colors">01126800344</a>
+                  <a href="tel:01126800344" dir="ltr" className="font-medium hover:text-blue-400 transition-colors">01126800344</a>
                 </div>
               </div>
               
@@ -125,7 +125,7 @@ const Footer = () => {
                 </div>
                 <div className="text-sm">
                   <p className="text-xs text-gray-500">{t.footer.pumpsDept}</p>
-                  <a href="tel:01006565474" dir="ltr" className="font-medium hover:text-cyan-400 transition-colors">01030306559</a>
+                  <a href="tel:01030306559" dir="ltr" className="font-medium hover:text-cyan-400 transition-colors">01030306559</a>
                 </div>
               </div>
 
