@@ -15,7 +15,7 @@ const Hero = () => {
       <div className="absolute inset-0 z-0">
         <img
           src={heroImage}
-          alt={t.hero.title + t.hero.companyPart2}
+          alt={t.hero.welcome + t.hero.companyPart2}
           className="w-full h-full object-cover opacity-50" 
           onError={(e) => {
             (e.target as HTMLImageElement).style.display = 'none';
