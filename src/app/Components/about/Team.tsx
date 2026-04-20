@@ -19,7 +19,7 @@ const Team = () => {
       <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mb-4 group-hover:bg-blue-600 transition-colors duration-300 shadow-sm">
         {React.cloneElement(icon as React.ReactElement, { 
           className: "text-slate-400 group-hover:text-white transition-colors" 
-        })}
+        } as any)}
       </div>
       <h4 className="text-slate-900 font-bold text-lg mb-1 group-hover:text-blue-600 transition-colors">
         {member.name}
