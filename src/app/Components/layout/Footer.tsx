@@ -3,7 +3,7 @@ import React, { useState, useMemo } from "react";
 import Image from "next/image";
 import { MapPin, Phone, User, MessageSquare, Mail, X, Plus, ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useLanguage } from "../../../context/LanguageContext"; 
+import { useLanguage } from "../../../context/LanguageContext";
 
 const Footer = () => {
   const { lang, t } = useLanguage();
@@ -11,28 +11,28 @@ const Footer = () => {
   const [enlargedImage, setEnlargedImage] = useState<string | null>(null);
 
   const managers = useMemo(() => [
-    { 
-      id: 1, 
-      name: lang === 'ar' ? "م / سامي عبدالنبي" : "Eng. Samy Abdelnaby", 
-      phones: ["01006565474", "01225451000"], 
-      image: "/maneger/Samy.jpg" 
+    {
+      id: 1,
+      name: lang === 'ar' ? "م / سامي عبدالنبي" : "Eng. Samy Abdelnaby",
+      phones: ["01006565474", "01225451000"],
+      image: "/maneger/Samy.jpg"
     },
-    { 
-      id: 2, 
-      name: lang === 'ar' ? "أ / أيمن عبدالنبي" : "Mr. Ayman Abdelnaby", 
-      phones: ["01224048111", "01110764444"], 
-      image: "/maneger/Ayman.jpg" 
+    {
+      id: 2,
+      name: lang === 'ar' ? "أ / أيمن عبدالنبي" : "Mr. Ayman Abdelnaby",
+      phones: ["01224048111", "01110764444"],
+      image: "/maneger/Ayman.jpg"
     },
-    { 
-      id: 3, 
-      name: lang === 'ar' ? "م / محمود عبدالنبي" : "Eng. Mahmoud Abdelnaby", 
-      phones: ["01091111129"], 
-      image: "/maneger/Mahmoud.jpg" 
+    {
+      id: 3,
+      name: lang === 'ar' ? "م / محمود عبدالنبي" : "Eng. Mahmoud Abdelnaby",
+      phones: ["01091111129"],
+      image: "/maneger/Mahmoud.jpg"
     },
   ], [lang]);
 
   // قائمة الخدمات (يفضل إضافتها في ملف الترجمة ولكن وضعتها هنا كاحتياط)
-  const servicesList = lang === 'ar' 
+  const servicesList = lang === 'ar'
     ? ["مواسير UPVC", "طلمبات أعماق", "حفر آبار ميكانيكي", "أنظمة طاقة شمسية", "توريد مستلزمات ري"]
     : ["UPVC Pipes", "Submersible Pumps", "Mechanical Well Drilling", "Solar Systems", "Irrigation Supplies"];
 
@@ -41,7 +41,7 @@ const Footer = () => {
     second: `https://maps.google.com/?q=${encodeURIComponent("الرهاوي بايب المنيا")}`
   };
 
-  const companyEmail = "info@elrahawypipe.com";
+  const companyEmail = "elrahawypipe@gmail.com";
 
   if (!t || !t.footer) return null;
 
@@ -50,11 +50,11 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-6">
         {/* تغيير الـ Grid ليصبح 5 أعمدة في الشاشات الكبيرة */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-16">
-          
+
           {/* العمود الأول: عن الشركة */}
           <div className="space-y-6 lg:col-span-1">
             <div className="relative w-40 h-12">
-               <Image src="/logo1.webp" alt="Al-Rahawy" fill className="object-contain brightness-110" />
+              <Image src="/logo1.webp" alt="Al-Rahawy" fill className="object-contain brightness-110" />
             </div>
             <p className="text-gray-400 text-sm leading-relaxed">
               {t.footer.about}
@@ -109,16 +109,31 @@ const Footer = () => {
           <div>
             <h3 className="text-xl font-bold mb-8 text-blue-500">{t.footer.contactUs}</h3>
             <div className="space-y-6">
-              <div className="flex items-center gap-3 text-gray-300 group">
-                <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-500 group-hover:bg-blue-500/20 transition-colors">
+              <div className="flex items-start gap-3 text-gray-300 group">
+                {/* الأيقونة ثابتة على اليمين */}
+                <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-500 group-hover:bg-blue-500/20 transition-colors mt-1">
                   <Phone size={20} />
                 </div>
+
                 <div className="text-sm">
-                  <p className="text-xs text-gray-500">{t.footer.pipesDept}</p>
-                  <a href="tel:01126800344" dir="ltr" className="font-medium hover:text-blue-400 transition-colors">01126800344</a>
+                  {/* اسم القسم */}
+                  <p className="text-xs text-gray-500 mb-1">{t.footer.pipesDept}</p>
+
+                  {/* قائمة الأرقام */}
+                  <div className="flex flex-col gap-1">
+                    <a href="tel:01126800344" dir="ltr" className="font-medium hover:text-blue-400 transition-colors block">
+                      01126800344
+                    </a>
+                    <a href="tel:01207799950" dir="ltr" className="font-medium hover:text-blue-400 transition-colors block">
+                     01207799950
+                    </a>
+                    <a href="tel:01011108444" dir="ltr" className="font-medium hover:text-blue-400 transition-colors block">
+                      01011108444
+                    </a>
+                  </div>
                 </div>
               </div>
-              
+
               <div className="flex items-center gap-3 text-gray-300 group">
                 <div className="w-10 h-10 rounded-xl bg-cyan-500/10 flex items-center justify-center text-cyan-500 group-hover:bg-cyan-500/20 transition-colors">
                   <Phone size={20} />

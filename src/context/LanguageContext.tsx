@@ -8,7 +8,7 @@ const translations = {
       welcome: "مرحباً بكم في",
       companyPart1: "شركة  ",
       companyPart2: " الرهاوي بايب",
-      description: "شركة رائدة في مجال الآبار الخاصة باستخراج المياه الجوفية من باطن الأرض بكافة الطرق اليدوية والميكانيكية منذ سبعينات القرن الماضي، وسابقة أعمال للعمل في كافة مشاريع وزارة الري وجميع القطاعات الخاصة العامة.",
+      description: "شركة رائدة في مجال الآبار الخاصة باستخراج المياه الجوفية من باطن الأرض بكافة الطرق اليدوية والميكانيكية منذ سبعينيات القرن الماضي، وسابقة أعمال للعمل في كافة مشاريع وزارة الري وجميع القطاعات الخاصة و العامة.",
       btnPrimary: "استعرض منتجاتنا",
       btnSecondary: "اتصل بنا"
     },
@@ -60,9 +60,9 @@ const translations = {
           { name: "أ. علاء عبدرب النبى", role: "الإدارة المالية" }
         ],
         sales: [
-          { name: "ش. أسامة مسعد", role: "قطاع المبيعات" },
-          { name: "ش. مصطفى حمدى", role: "قطاع المبيعات" },
-          { name: "ش. أحمد أبو حذيفة", role: "قطاع المبيعات" },
+          { name: "أ. أسامة مسعد", role: "قطاع المبيعات" },
+          { name: "أ. مصطفى حمدى", role: "قطاع المبيعات" },
+          { name: "أ. أحمد الشاذلى", role: "قطاع المبيعات" },
           { name: "م. خالد الأبيض", role: "مهندس كهرباء" }
         ]
       }
@@ -178,7 +178,7 @@ const translations = {
       mainTitle: "لماذا تختار",
       companyName: "الرهاوي بايب",
       f1_title: "خبرة عريقة",
-      f1_desc: "نعمل في مجال المياه الجوفية منذ سبعينات القرن الماضي بخبرة تتوارثها الأجيال.",
+      f1_desc: "نعمل في مجال المياه الجوفية منذ سبعينيات القرن الماضي بخبرة تتوارثها الأجيال.",
       f2_title: "أحدث التقنيات",
       f2_desc: "نستخدم الطرق اليدوية والميكانيكية المبتكرة لاستخراج المياه بأعلى كفاءة.",
       f3_title: "ثقة حكومية",
@@ -201,8 +201,8 @@ const translations = {
       title: "الأسئلة الشائعة",
       subtitle: "كل ما تود معرفته عن خدمات حفر الآبار وتوريد المواسير",
       questions: [
-        { q: "كم يستغرق وقت حفر البئر التوازي؟", a: "يختلف الوقت بناءً على العمق وطبيعة التربة، ولكن في المتوسط يستغرق العمل من 7 إلى 15 يوم عمل باستخدام أحدث المعدات الميكانيكية." },
-        { q: "هل توفر الشركة ضماناً على المواسير والمهمات؟", a: "نعم، جميع المواسير والمهمات الموردة من شركة الرهاوي بايب مطابقة للمواصفات القياسية وتخضع لضمان كامل ضد عيوب الصناعة." },
+        { q: "هل تقدمون خدمات الصيانة والإصلاح للمواتير والطلمبات ؟", a: "نعم، نحن نوفر فريقاً متخصصاً لصيانة وإصلاح كافة أنواع المواتير وطلمبات الأعماق. تشمل خدماتنا الفحص الدوري، وتوفير قطع الغيار الأصلية، وإصلاح الأعطال لضمان استمرارية تدفق المياه بأعلى كفاءة." },
+        { q: "هل تركيب منظومة الطاقة الشمسية يوفر في تكاليف الكهرباء على المدى الطويل ؟", a: "بالتأكيد، تعتبر الطاقة الشمسية استثماراً ذكياً يوفر ما يصل إلى 70-90% من تكاليف الكهرباء الشهرية. بالإضافة إلى ذلك، فهي تتطلب صيانة محدودة جداً وتعمل بكفاءة لسنوات طويلة، مما يضمن لك استرداد تكلفة النظام في وقت قياسي." },
         { q: "هل تعمل الشركة في كافة محافظات مصر؟", a: "نعم، نمتلك أسطولاً من المعدات قادراً على الوصول والعمل في كافة مشاريع وزارة الري والقطاعات الخاصة في جميع أنحاء الجمهورية." }
       ]
     },
@@ -288,9 +288,9 @@ const translations = {
           { name: "Mr. Alaa Abdel-Nabi", role: "Finance Dept" }
         ],
         sales: [
-          { name: "Sh. Osama Mossad", role: "Sales Dept" },
-          { name: "Sh. Mostafa Hamdy", role: "Sales Dept" },
-          { name: "Sh. Ahmed Abu Huzaifa", role: "Sales Dept" },
+          { name: "Mr. Osama Mossad", role: "Sales Dept" },
+          { name: "Mr. Mostafa Hamdy", role: "Sales Dept" },
+          { name: "Mr. Ahmed Al-Shazly", role: "Sales Dept" },
           { name: "Eng. Khaled El-Abyad", role: "Electrical Engineer" }
         ]
       }
@@ -401,13 +401,14 @@ const translations = {
       ]
     },
     partners: { title: "Our Success Partners", subtitle: "We take pride in the trust of major companies and government sectors in our expertise." },
+   
     faq: {
       title: "Common Questions",
       subtitle: "Everything you know about our services",
       questions: [
-        { q: "How long to drill a well?", a: "7 to 15 working days average." },
-        { q: "Is there a warranty?", a: "Yes, full warranty against manufacturing defects." },
-        { q: "Do you work all over Egypt?", a: "Yes, we reach all governorates." }
+        { q: "Do you provide maintenance and repair services for motors and pumps ?", a: "Yes, we provide a specialized team for maintaining and repairing all types of motors and deep-well pumps. Our services include routine inspections, providing original spare parts, and emergency repairs to ensure continuous water flow at maximum efficiency." },
+        { q: "Does installing a solar energy system save on electricity costs in the long run ?", a: "Absolutely. Solar energy is a smart investment that saves up to 70-90% on monthly electricity costs. Additionally, it requires very limited maintenance and operates efficiently for many years, ensuring you recover the system cost in record time." },
+        { q: "Do you work all over Egypt ?", a: "Yes, we possess a fleet of equipment capable of reaching and operating in all Ministry of Irrigation projects and private sectors across the entire Republic." }
       ]
     },
     ctaContent: {

@@ -32,10 +32,11 @@ const Hero = () => {
           transition={{ duration: 1.2, ease: "easeOut" }}
         >
           <p className="text-blue-400 text-xl md:text-2xl font-medium mb-4 tracking-wide">
+          
             {t.hero.welcome}
           </p>
           
-          <h1 className="text-5xl md:text-8xl font-black text-white mb-8 drop-shadow-lg">
+          <h1 className="text-5xl md:text-8xl font-black text-white mb-6 drop-shadow-lg">
             {/* هنا بنلون جزء من الاسم بناءً على اللغة */}
             {lang === 'ar' ? (
               <>
@@ -49,13 +50,13 @@ const Hero = () => {
           </h1>
           
           {/* خط ديكور */}
-          <div className="h-1.5 w-32 bg-blue-600 mx-auto mb-10 rounded-full"></div>
+          <div className="h-1.5 w-32 bg-blue-600 mx-auto mb-6 rounded-full"></div>
 
           <p className="text-xl md:text-3xl text-gray-100 leading-relaxed font-light max-w-4xl mx-auto drop-shadow-md">
             {t.hero.description}
           </p>
 
-          <div className="mt-12 flex flex-col sm:flex-row gap-6 justify-center items-center">
+          <div className="mt-8 flex flex-col sm:flex-row gap-6 justify-center items-center">
             {/* زرار المنتجات */}
             <Link href="/products">
               <button className="bg-blue-600 hover:bg-blue-700 text-white px-12 py-4 rounded-xl font-bold text-xl transition-all hover:scale-105 active:scale-95 shadow-2xl shadow-blue-900/20">

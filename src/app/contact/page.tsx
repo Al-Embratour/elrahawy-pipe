@@ -2,11 +2,12 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Phone, Mail, Send, MessageCircle, Droplets, Construction, Globe, ArrowUpRight, ChevronDown } from 'lucide-react';
-import { useLanguage } from "../../context/LanguageContext"; 
+import { useLanguage } from "../../context/LanguageContext";
 
 const ContactPage = () => {
   const { lang } = useLanguage();
-  
+  const [loading, setLoading] = useState(false);
+
   // نصوص الصفحة
   const content = {
     ar: {
@@ -28,10 +29,13 @@ const ContactPage = () => {
       formSubject: "الخدمة المطلوبة",
       formMsg: "رسالتك (تفاصيل المشروع)",
       formBtn: "إرسال البيانات",
+      formBtnLoading: "جارٍ الإرسال...",
       mapsTitle: "مواقعنا اللوجستية",
       services: ["حفر الآبار", "مواسير بلاستيك PVC", "طلمبات أعماق", "شبكات ري حديثة", "طاقة شمسية"],
       branch1Name: "المقر الرئيسي - الرهاوي بايب للمقاولات",
-      branch2Name: "فرع المنيا - الرهاوي بايب"
+      branch2Name: "فرع المنيا - الرهاوي بايب",
+      successMsg: "تم إرسال رسالتك بنجاح لشركة الرهاوي!",
+      errorMsg: "حدث خطأ أثناء الإرسال، يرجى المحاولة لاحقاً."
     },
     en: {
       hero: "Contact Al-Rahawy Pipe",
@@ -52,31 +56,66 @@ const ContactPage = () => {
       formSubject: "Requested Service",
       formMsg: "Your Message (Project Details)",
       formBtn: "Send Information",
+      formBtnLoading: "Sending...",
       mapsTitle: "Our Strategic Locations",
       services: ["Well Drilling", "PVC Plastic Pipes", "Deep Well Pumps", "Modern Irrigation", "Solar Energy"],
       branch1Name: "Headquarters - Al-Rahawy Pipe Contracting",
-      branch2Name: "Minia Branch - Al-Rahawy Pipe"
+      branch2Name: "Minia Branch - Al-Rahawy Pipe",
+      successMsg: "Your message has been sent successfully to Al-Rahawy Co.!",
+      errorMsg: "An error occurred, please try again later."
     }
   };
 
   const t = lang === 'ar' ? content.ar : content.en;
 
+  // وظيفة الإرسال المرتبطة بـ API Next.js
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      name: formData.get('name'),
+      email: formData.get('email'),
+      phone: formData.get('phone'),
+      service: formData.get('service'),
+      message: formData.get('message'),
+    };
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      if (res.ok) {
+        alert(t.successMsg);
+        e.target.reset();
+      } else {
+        alert(t.errorMsg);
+      }
+    } catch (error) {
+      alert(t.errorMsg);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="bg-slate-50 min-h-screen pb-20" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
-      
-      {/* 1. Hero Section - مع إضافة صورة الخلفية */}
+
+      {/* 1. Hero Section */}
       <section className="relative pt-32 pb-44 px-6 overflow-hidden min-h-[400px] flex items-center justify-center">
-        {/* صورة الهيرو - ضع المسار الخاص بك هنا */}
-        <img 
-          src="/contact/hero-contact.png" 
-          alt="Contact Al-Rahawy" 
+        <img
+          src="/contact/hero-contact.png"
+          alt="Contact Al-Rahawy"
           className="absolute inset-0 w-full h-full object-cover"
         />
-        {/* طبقة شفافة لتوضيح الخط */}
         <div className="absolute inset-0 bg-[#001529]/75 z-0"></div>
-        
+
         <div className="container mx-auto relative z-10 text-center">
-          <motion.h1 
+          <motion.h1
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
             className="text-white text-4xl md:text-7xl font-black mb-6"
           >
@@ -91,10 +130,10 @@ const ContactPage = () => {
       {/* 2. Main Grid (Info & Form) */}
       <div className="container mx-auto px-6 -mt-24 relative z-20">
         <div className="grid lg:grid-cols-12 gap-8">
-          
+
           {/* الجانب الأيسر: المعلومات */}
           <div className="lg:col-span-5 space-y-6">
-            <motion.div 
+            <motion.div
               initial={{ x: lang === 'ar' ? 50 : -50, opacity: 0 }} animate={{ x: 0, opacity: 1 }}
               className="bg-white p-8 md:p-10 rounded-[3rem] shadow-2xl border border-blue-50"
             >
@@ -106,7 +145,6 @@ const ContactPage = () => {
               </h2>
 
               <div className="space-y-10">
-                {/* المقر الرئيسي */}
                 <div className="group">
                   <div className="flex gap-5">
                     <div className="w-12 h-12 bg-slate-100 rounded-2xl flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all shadow-sm">
@@ -119,7 +157,6 @@ const ContactPage = () => {
                   </div>
                 </div>
 
-                {/* فرع المنيا */}
                 <div className="group">
                   <div className="flex gap-5">
                     <div className="w-12 h-12 bg-slate-100 rounded-2xl flex items-center justify-center text-orange-600 group-hover:bg-orange-600 group-hover:text-white transition-all shadow-sm">
@@ -134,19 +171,37 @@ const ContactPage = () => {
 
                 <hr className="border-slate-100" />
 
-                {/* أرقام الهواتف المقسمة */}
                 <div className="grid gap-4">
-                  <div className="bg-blue-50 p-6 rounded-3xl flex items-center justify-between border border-blue-100 group hover:bg-blue-600 transition-all">
-                    <div className="flex items-center gap-4 text-blue-900 group-hover:text-white">
+                  <div className="bg-blue-50 p-6 rounded-3xl border border-blue-100 group hover:bg-blue-600 transition-all">
+                    <div className="flex items-center gap-4 text-blue-900 group-hover:text-white mb-4">
                       <Construction size={28} />
                       <div>
-                        <p className="text-[10px] uppercase font-bold tracking-widest opacity-70">{t.pipesDept}</p>
-                        <p className="text-xl font-black" dir="ltr">01126800344</p>
+                        <p className="text-[10px] uppercase font-bold tracking-widest opacity-70">
+                          {t.pipesDept}
+                        </p>
                       </div>
                     </div>
-                    <a href="tel:01126800344" className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-blue-600 shadow-md">
-                      <ArrowUpRight size={20} />
-                    </a>
+
+                    <div className="flex flex-col gap-4">
+                      <div className="flex items-center justify-between">
+                        <p className="text-xl font-black text-blue-900 group-hover:text-white" dir="ltr">01126800344</p>
+                        <a href="tel:01126800344" className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-blue-600 shadow-md hover:scale-110 transition-transform">
+                          <ArrowUpRight size={20} />
+                        </a>
+                      </div>
+                      <div className="flex items-center justify-between border-t border-blue-200/50 group-hover:border-white/20 pt-3">
+                        <p className="text-xl font-black text-blue-900 group-hover:text-white" dir="ltr">01207799950</p>
+                        <a href="tel:01207799950" className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-blue-600 shadow-md hover:scale-110 transition-transform">
+                          <ArrowUpRight size={20} />
+                        </a>
+                      </div>
+                      <div className="flex items-center justify-between border-t border-blue-200/50 group-hover:border-white/20 pt-3">
+                        <p className="text-xl font-black text-blue-900 group-hover:text-white" dir="ltr">01011108444</p>
+                        <a href="tel:01011108444" className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-blue-600 shadow-md hover:scale-110 transition-transform">
+                          <ArrowUpRight size={20} />
+                        </a>
+                      </div>
+                    </div>
                   </div>
 
                   <div className="bg-emerald-50 p-6 rounded-3xl flex items-center justify-between border border-emerald-100 group hover:bg-emerald-600 transition-all">
@@ -163,71 +218,72 @@ const ContactPage = () => {
                   </div>
                 </div>
 
-                {/* الإيميل */}
                 <div className="flex items-center gap-4 p-5 bg-slate-900 rounded-[2rem] text-white">
                   <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center">
                     <Mail size={24} className="text-blue-400" />
                   </div>
                   <div>
                     <p className="text-xs opacity-50 uppercase font-bold tracking-tighter italic">Official Support</p>
-                    <p className="font-bold text-lg select-all">info@elrahawypipe.com</p>
+                    <p className="font-bold text-lg select-all">elrahawypipe@gmail.com</p>
                   </div>
                 </div>
               </div>
             </motion.div>
           </div>
 
-          {/* الجانب الأيمن: الفورم */}
+          {/* الجانب الأيمن: الفورم المعدل للربط */}
           <div className="lg:col-span-7">
-            <motion.div 
+            <motion.div
               initial={{ x: lang === 'ar' ? -50 : 50, opacity: 0 }} animate={{ x: 0, opacity: 1 }}
               className="bg-white p-10 md:p-14 rounded-[3.5rem] shadow-2xl border border-slate-100"
             >
               <h2 className="text-3xl font-black text-slate-900 mb-4">{t.formTitle}</h2>
               <p className="text-slate-500 mb-10 font-medium">{t.formSubTitle}</p>
-              
-              <form className="space-y-6">
+
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label className="text-sm font-black text-slate-800 mr-2">{t.formNameLabel}</label>
-                    <input required type="text" placeholder={t.formNamePlaceholder} className="w-full bg-slate-50 border-2 border-slate-50 rounded-2xl p-4 focus:border-blue-600 focus:bg-white outline-none transition-all" />
+                    <input name="name" required type="text" placeholder={t.formNamePlaceholder} className="w-full bg-slate-50 border-2 border-slate-50 rounded-2xl p-4 focus:border-blue-600 focus:bg-white outline-none transition-all" />
                   </div>
                   <div className="space-y-2">
                     <label className="text-sm font-black text-slate-800 mr-2">{t.formEmail}</label>
-                    <input required type="email" placeholder="example@mail.com" className="w-full bg-slate-50 border-2 border-slate-50 rounded-2xl p-4 focus:border-blue-600 focus:bg-white outline-none transition-all" />
+                    <input name="email" required type="email" placeholder="example@mail.com" className="w-full bg-slate-50 border-2 border-slate-50 rounded-2xl p-4 focus:border-blue-600 focus:bg-white outline-none transition-all" />
                   </div>
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label className="text-sm font-black text-slate-800 mr-2">{t.formPhone}</label>
-                    <input required type="tel" placeholder="01XXXXXXXXX" className="w-full bg-slate-50 border-2 border-slate-50 rounded-2xl p-4 focus:border-blue-600 focus:bg-white outline-none transition-all" />
+                    <input name="phone" required type="tel" placeholder="01XXXXXXXXX" className="w-full bg-slate-50 border-2 border-slate-50 rounded-2xl p-4 focus:border-blue-600 focus:bg-white outline-none transition-all" />
                   </div>
-                  {/* قسم الخدمة مع السهم */}
                   <div className="space-y-2 relative">
                     <label className="text-sm font-black text-slate-800 mr-2">{t.formSubject}</label>
                     <div className="relative">
-                        <select className="w-full bg-slate-50 border-2 border-slate-50 rounded-2xl p-4 focus:border-blue-600 focus:bg-white outline-none cursor-pointer appearance-none">
-                            {t.services.map((s, i) => <option key={i} value={s}>{s}</option>)}
-                        </select>
-                        <ChevronDown className={`absolute ${lang === 'ar' ? 'left-4' : 'right-4'} top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none`} size={20} />
+                      <select name="service" className="w-full bg-slate-50 border-2 border-slate-50 rounded-2xl p-4 focus:border-blue-600 focus:bg-white outline-none cursor-pointer appearance-none">
+                        {t.services.map((s, i) => <option key={i} value={s}>{s}</option>)}
+                      </select>
+                      <ChevronDown className={`absolute ${lang === 'ar' ? 'left-4' : 'right-4'} top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none`} size={20} />
                     </div>
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <label className="text-sm font-black text-slate-800 mr-2">{t.formMsg}</label>
-                  <textarea rows={5} placeholder="..." className="w-full bg-slate-50 border-2 border-slate-50 rounded-3xl p-5 focus:border-blue-600 focus:bg-white outline-none transition-all resize-none"></textarea>
+                  <textarea name="message" rows={5} placeholder="..." className="w-full bg-slate-50 border-2 border-slate-50 rounded-3xl p-5 focus:border-blue-600 focus:bg-white outline-none transition-all resize-none"></textarea>
                 </div>
 
-                <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-6 rounded-[2rem] text-xl shadow-xl shadow-blue-200 transition-all flex items-center justify-center gap-4 group">
-                  <Send size={24} className="group-hover:translate-x-2 transition-transform" />
-                  {t.formBtn}
+                <button 
+                  type="submit" 
+                  disabled={loading}
+                  className={`w-full ${loading ? 'bg-blue-400' : 'bg-blue-600 hover:bg-blue-700'} text-white font-black py-6 rounded-[2rem] text-xl shadow-xl shadow-blue-200 transition-all flex items-center justify-center gap-4 group`}
+                >
+                  <Send size={24} className={`${!loading && 'group-hover:translate-x-2'} transition-transform`} />
+                  {loading ? t.formBtnLoading : t.formBtn}
                 </button>
               </form>
             </motion.div>
           </div>
-
         </div>
       </div>
 
@@ -235,38 +291,42 @@ const ContactPage = () => {
       <section className="container mx-auto px-6 mt-24">
         <h2 className="text-4xl font-black text-center text-slate-900 mb-16">{t.mapsTitle}</h2>
         <div className="grid lg:grid-cols-2 gap-10">
-          {/* خريطة الرهاوي */}
-          <div className="space-y-4">
-             <div className="bg-white p-4 rounded-3xl shadow-lg border border-slate-100 flex items-center gap-3">
-               <div className="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">1</div>
-               <p className="font-black text-slate-700">{t.branch1Name}</p>
-             </div>
-             <div className="h-[450px] rounded-[3.5rem] overflow-hidden shadow-2xl border-8 border-white relative group">
-                <iframe 
-                  src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d13797.108500203099!2d31.034509!3d30.1721087!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1458597405232d3b%3A0xc3911f9301659779!2z2KfZhNix2YfYp9mI2Yog2KjYp9mK2Kgg2YTZhNmF2YLYp9mI2YTYp9iq!5e0!3m2!1sar!2seg!4v1714560000000" 
-                  width="100%" height="100%" style={{ border: 0 }} allowFullScreen loading="lazy"
-                  className="filter grayscale-[20%] group-hover:grayscale-0 transition-all duration-500"
-                ></iframe>
-             </div>
-          </div>
+<div className="space-y-4">
+  <div className="bg-white p-4 rounded-3xl shadow-lg border border-slate-100 flex items-center gap-3">
+    <div className="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">1</div>
+    <p className="font-black text-slate-700">{t.branch1Name}</p>
+  </div>
+  <div className="h-[450px] rounded-[3.5rem] overflow-hidden shadow-2xl border-8 border-white relative group">
+    <iframe
+      // تم تعديل الرابط هنا ليبحث مباشرة عن اسم الشركة ويضع علامة عليها
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3448.713035901292!2d31.047345099999998!3d30.1881903!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1458676f06890155%3A0x75de2b62c6c27f94!2z2LTYsdmD2Kkg2KfZhNix2YfYp9mI2Ykg2KjYp9mK2Kgg2YTZhNmF2YLYp9mI2YTYp9iqINmI2K7Yr9mF2KfYqiDYrdmB2LEg2KfZhNii2KjYp9ix!5e0!3m2!1sar!2seg!4v1776771140005!5m2!1sar!2seg"
+      // ملاحظة: إذا لم يكن لديك API Key، يمكنك استخدام الرابط المباشر أدناه (الأسهل):
+      // src="https://maps.google.com/maps?q=شركة%20الرهاوى%20بايب%20للمقاولات&t=&z=15&ie=UTF8&iwloc=&output=embed"
+      width="100%" 
+      height="100%" 
+      style={{ border: 0 }} 
+      allowFullScreen 
+      loading="lazy"
+      className="filter grayscale-[20%] group-hover:grayscale-0 transition-all duration-500"
+    ></iframe>
+  </div>
+</div>
 
-          {/* خريطة المنيا */}
           <div className="space-y-4">
-             <div className="bg-white p-4 rounded-3xl shadow-lg border border-slate-100 flex items-center gap-3">
-               <div className="w-10 h-10 bg-orange-600 text-white rounded-full flex items-center justify-center font-bold">2</div>
-               <p className="font-black text-slate-700">{t.branch2Name}</p>
-             </div>
-             <div className="h-[450px] rounded-[3.5rem] overflow-hidden shadow-2xl border-8 border-white relative group">
-                <iframe 
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3550.0000000000!2d30.840000!3d27.730000!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x145b23XXXXXX!2z2YXYp9mI2YjZiiAtINin2YTZhdmG2YrYpw!5e0!3m2!1sar!2seg!4v1714560000000" 
-                  width="100%" height="100%" style={{ border: 0 }} allowFullScreen loading="lazy"
-                  className="filter grayscale-[20%] group-hover:grayscale-0 transition-all duration-500"
-                ></iframe>
-             </div>
+            <div className="bg-white p-4 rounded-3xl shadow-lg border border-slate-100 flex items-center gap-3">
+              <div className="w-10 h-10 bg-orange-600 text-white rounded-full flex items-center justify-center font-bold">2</div>
+              <p className="font-black text-slate-700">{t.branch2Name}</p>
+            </div>
+            <div className="h-[450px] rounded-[3.5rem] overflow-hidden shadow-2xl border-8 border-white relative group">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3530.4453505059014!2d30.580678925182685!3d27.765248722936416!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1444c90050010ed5%3A0x96f054af8380817!2z2LTYsdmD2Kkg2KfZhNix2YfYp9mI2Yog2KjYp9mK2Kgg2YHYsdi5INin2YTZhdmG2YrYpw!5e0!3m2!1sar!2seg!4v1776771338641!5m2!1sar!2seg"
+                width="100%" height="100%" style={{ border: 0 }} allowFullScreen loading="lazy"
+                className="filter grayscale-[20%] group-hover:grayscale-0 transition-all duration-500"
+              ></iframe>
+            </div>
           </div>
         </div>
       </section>
-
     </div>
   );
 };
