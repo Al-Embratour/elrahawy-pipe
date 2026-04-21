@@ -69,7 +69,7 @@ const ContactPage = () => {
   const t = lang === 'ar' ? content.ar : content.en;
 
   // وظيفة الإرسال المرتبطة بـ API Next.js
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e : any) => {
     e.preventDefault();
     setLoading(true);
 
